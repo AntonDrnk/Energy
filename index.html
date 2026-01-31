@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="uk">
+<<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Автономні енергостанції Victron</title>
+  <style>
+    body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:#f4f6fb;color:#0f172a;line-height:1.6}
+    h1,h2,h3{line-height:1.25;margin:0}
+    img, video{max-width:100%;display:block}
+
+    /* ===== HEADER ===== */
+    .hero{position:relative;height:90vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1}
+    .hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);z-index:2}
+    .hero-content{position:relative;z-index:3;text-align:center;max-width:800px;animation:fadeInUp 1.2s ease forwards;color:#fff}
+    .hero-content h1{font-size:3rem;margin-bottom:16px}
+    .hero-content .subtitle{font-size:1.3rem;margin-bottom:24px;opacity:0.9}
+    .badge{display:inline-block;background:#fde047;color:#000;padding:8px 16px;border-radius:999px;font-weight:600;margin-bottom:20px}
+    .cta{display:inline-block;background:linear-gradient(90deg,#22c55e,#16a34a);color:#fff;padding:16px 36px;border-radius:12px;font-weight:700;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s}
+    .cta:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,0,0,0.2)}
+
+    @keyframes fadeInUp{0%{opacity:0;transform:translateY(40px)}100%{opacity:1;transform:translateY(0)}}
+
+    section{padding:80px 20px}
+    h2{text-align:center;font-size:32px;margin-bottom:60px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
+    .card{background:#fff;border-radius:18px;padding:30px;box-shadow:0 15px 40px rgba(0,0,0,.08);transition:transform 0.3s,box-shadow 0.3s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,0.15)}
+    .card.popular{border:3px solid #22c55e}
+    .price{font-size:36px;font-weight:800;color:#0f766e;margin:15px 0}
+    ul{padding-left:18px}
+    li{margin-bottom:8px}
+    .muted{color:#475569}
+    .delivery{display:flex;gap:16px;align-items:center;background:#ecfeff;border-radius:14px;padding:20px;margin-top:30px;flex-wrap:wrap}
+
+    /* ===== FAQ ===== */
+    .faq-item{margin-bottom:12px;border:1px solid #cbd5f5;border-radius:12px;overflow:hidden}
+    .faq-item button{width:100%;padding:12px 20px;text-align:left;font-size:16px;background:#eef2ff;border:none;cursor:pointer;outline:none;position:relative}
+    .faq-item button::after{content:'▼';position:absolute;right:20px;transition:transform 0.3s}
+    .faq-item .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;background:#fff;padding:0 20px}
+    .faq-item.active .faq-answer{padding:12px 20px;max-height:200px}
+    .faq-item.active button::after{transform:rotate(-180deg)}
+
+    /* ===== CAROUSELS ===== */
+    .carousel-reviews,.carousel-works{position:relative;overflow:hidden;margin-top:30px}
+    .carousel-track-reviews,.carousel-track-works{display:flex;transition:transform 0.6s cubic-bezier(0.68,-0.55,0.27,1.55)}
+    .carousel-reviews .carousel-item,.carousel-works .carousel-item{flex:0 0 30%;background:#fff;border-radius:16px;padding:20px;margin:0 8px;box-shadow:0 8px 25px rgba(0,0,0,0.08);box-sizing:border-box}
+    .carousel-works .carousel-item{padding:4px}
+    .carousel-works .carousel-item img{border-radius:8px;user-select:none;pointer-events:none}
+    .carousel-reviews button,.carousel-works button{position:absolute;top:50%;transform:translateY(-50%);background:rgba(34,197,94,0.7);border:none;color:#fff;font-size:28px;padding:0 12px;cursor:pointer;border-radius:50%;z-index:10}
+    .carousel-works button{font-size:24px;padding:0 10px}
+    .carousel-reviews button.prev,.carousel-works button.prev{left:5px}
+    .carousel-reviews button.next,.carousel-works button.next{right:5px}
+
+    /* ===== ADAPTIVE ===== */
+    @media (max-width:900px){.carousel-reviews .carousel-item,.carousel-works .carousel-item{flex:0 0 45%}}
+    @media (max-width:600px){.carousel-reviews .carousel-item,.carousel-works .carousel-item{flex:0 0 90%}}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="hero">
+    <video autoplay muted loop playsinline class="hero-video">
+      <source src="victron.mp4" type="video/mp4">
+      Ваш браузер не підтримує відео.
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="badge">🇺🇦 Офіційне рішення для України</div>
+      <h1>Надійна енергетична автономія для квартири та дому</h1>
+      <p class="subtitle">Преміальні автономні станції на базі <b>Victron Energy (Нідерланди)</b>. Працює автоматично під час відключень.</p>
+      <a href="#configs" class="cta">Переглянути конфігурації</a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Чому обирають Victron Energy</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Європейський стандарт якості</h3>
+        <p>Victron Energy — виробник з Нідерландів, обладнання якого використовується в Європі, США та на морських обʼєктах, де надійність критична.</p>
+      </div>
+      <div class="card">
+        <h3>Миттєвий перехід без збоїв</h3>
+        <p>Система перемикається на акумулятори за мілісекунди — холодильники, роутери та котли працюють без переривань.</p>
+      </div>
+      <div class="card">
+        <h3>Довгий ресурс роботи</h3>
+        <p>LiFePO₄ акумулятори витримують до <b>6000 циклів</b>, що дорівнює понад 10 рокам щоденної експлуатації.</p>
+      </div>
+      <div class="card">
+        <h3>Тиша та безпека</h3>
+        <p>Без шуму, вихлопів та запаху пального — ідеально для квартир і житлових будинків.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="configs" style="background:#eef2ff">
+  <div class="wrap">
+    <h2>Готові конфігурації</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>START — квартира</h3>
+        <p class="muted">Базова автономія для міської квартири</p>
+        <ul>
+          <li>Інвертор Victron MultiPlus-II GX — 5 кВт</li>
+          <li>LiFePO₄ акумулятор — 5 кВт·год</li>
+          <li>Освітлення, інтернет, холодильник</li>
+          <li>Автономність: до 24 годин</li>
+        </ul>
+        <div class="price">$2200</div>
+      </div>
+      <div class="card popular">
+        <h3>COMFORT — квартира / будинок</h3>
+        <p class="muted">Найпопулярніший варіант серед клієнтів</p>
+        <ul>
+          <li>Інвертор Victron — 5 кВт</li>
+          <li>LiFePO₄ акумулятор — 10 кВт·год</li>
+          <li>Котел, насоси, робоче місце</li>
+          <li>Автономність: до 2 діб</li>
+        </ul>
+        <div class="price">$3800</div>
+      </div>
+      <div class="card">
+        <h3>HOME+ — будинок</h3>
+        <p class="muted">Рішення для повноцінного життя без мережі</p>
+        <ul>
+          <li>Інвертор Victron — 8 кВт</li>
+          <li>LiFePO₄ акумулятор — 15 кВт·год</li>
+          <li>Опалення, скважина, кухня</li>
+          <li>Автономність: до 3 діб</li>
+        </ul>
+        <div class="price">$5600</div>
+      </div>
+    </div>
+    <div class="delivery">
+      <strong>🚚 Доставка Новою Поштою по всій Україні</strong>
+      <span class="muted">Відправка зі складу • післяплата або безготівковий розрахунок</span>
+    </div>
+  </div>
+</section>
+
+
+<section>
+  <div class="wrap">
+    <h2>Монтаж і підтримка</h2>
+    <div class="grid">
+      <div class="card">🔧 <b>Монтаж під ключ</b><br/>Проєктування, встановлення та налаштування системи</div>
+      <div class="card">💬 <b>Підтримка 24/7</b><br/>Telegram, Viber, консультації до та після покупки</div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ===== Карусель відгуків ===== -->
+<section>
+  <div class="wrap">
+    <h2 style="text-align:center;margin-bottom:30px;">Відгуки наших клієнтів</h2>
+    <div class="carousel-reviews">
+      <button class="prev">‹</button>
+      <div class="carousel-track-reviews">
+        <!-- Відгук 1 -->
+        <div class="carousel-item">
+          <p>«Поставили Victron у квартирі — світло є завжди. Перехід настільки швидкий, що техніка навіть не моргає.»</p>
+          <b>Олександр К., Київ</b><br/><span class="muted">Facebook</span>
+        </div>
+        <!-- Відгук 2 -->
+        <div class="carousel-item">
+          <p>«Брали систему для будинку. Працює котел, інтернет і холодильник по 10–12 годин без мережі. Дуже задоволені.»</p>
+          <b>Ірина М., Львів</b><br/><span class="muted">Facebook</span>
+        </div>
+        <!-- Відгук 3 -->
+        <div class="carousel-item">
+          <p>«Все встановили за один день, пояснили як користуватися. Реально преміальне обладнання.»</p>
+          <b>Дмитро Л., Дніпро</b><br/><span class="muted">Facebook</span>
+        </div>
+        <!-- Відгук 4 -->
+        <div class="carousel-item">
+          <p>«Встановили систему у заміському будинку — тепер світло є завжди, навіть під час гроз.»</p>
+          <b>Марія С., Харків</b><br/><span class="muted">Facebook</span>
+        </div>
+        <!-- Відгук 5 -->
+        <div class="carousel-item">
+          <p>«Автономія від Victron врятувала холодильник і котел під час відключень електроенергії.»</p>
+          <b>Віктор П., Одеса</b><br/><span class="muted">Facebook</span>
+        </div>
+        <!-- Відгук 6 -->
+        <div class="carousel-item">
+          <p>«Просте підключення і повна автоматизація. Дуже зручно для квартири.»</p>
+          <b>Світлана К., Київ</b><br/><span class="muted">Facebook</span>
+        </div>
+        <!-- Відгук 7 -->
+        <div class="carousel-item">
+          <p>«Система повністю відповідає опису, працює тихо і надійно.»</p>
+          <b>Андрій М., Львів</b><br/><span class="muted">Facebook</span>
+        </div>
+        <!-- Відгук 8 -->
+        <div class="carousel-item">
+          <p>«Монтаж пройшов швидко, інженери пояснили все детально. Рекомендую!»</p>
+          <b>Ольга Н., Дніпро</b><br/><span class="muted">Facebook</span>
+        </div>
+        <!-- Відгук 9 -->
+        <div class="carousel-item">
+          <p>«Під час відключення електрики навіть холодильник не відключився. Це круто!»</p>
+          <b>Сергій Т., Київ</b><br/><span class="muted">Facebook</span>
+        </div>
+        <!-- Відгук 10 -->
+        <div class="carousel-item">
+          <p>«Замовили для будинку на дачі — тепер живемо без переживань про світло.»</p>
+          <b>Людмила Я., Полтава</b><br/><span class="muted">Facebook</span>
+        </div>
+      </div>
+      <button class="next">›</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Карусель робіт ===== -->
+<section>
+  <div class="wrap">
+    <h2 style="font-size:24px;margin-bottom:20px;">Наші роботи</h2>
+    <div class="carousel-works">
+      <button class="prev">‹</button>
+      <div class="carousel-track-works">
+        <div class="carousel-item"><img src="work1.jpg" alt="Робота 1"></div>
+        <div class="carousel-item"><img src="work2.jpg" alt="Робота 2"></div>
+        <div class="carousel-item"><img src="work3.jpg" alt="Робота 3"></div>
+        <div class="carousel-item"><img src="work4.jpg" alt="Робота 4"></div>
+        <div class="carousel-item"><img src="work5.jpg" alt="Робота 5"></div>
+        <div class="carousel-item"><img src="work6.jpg" alt="Робота 6"></div>
+      </div>
+      <button class="next">›</button>
+    </div>
+  </div>
+</section>
+
+
+<section>
+  <div class="wrap">
+    <h2>Питання та відповіді</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <button>Скільки часу займає монтаж?</button>
+        <div class="faq-answer">Зазвичай від 2 до 4 годин залежно від комплектації.</div>
+      </div>
+      <div class="faq-item">
+        <button>Чи можу я оплатити післяплатою?</button>
+        <div class="faq-answer">Так, ми працюємо через Нову Пошту з післяплатою або безготівково.</div>
+      </div>
+      <div class="faq-item">
+        <button>Який ресурс акумуляторів?</button>
+        <div class="faq-answer">LiFePO₄ акумулятори витримують до 6000 циклів, що понад 10 років щоденної роботи.</div>
+      </div>
+      <div class="faq-item">
+        <button>Чи можу я розширити систему в майбутньому?</button>
+        <div class="faq-answer">Так, усі конфігурації можна масштабувати додатковими акумуляторами або інверторами Victron.</div>
+      </div>
+      <div class="faq-item">
+        <button>Чи входить вартість монтажу?</button>
+        <div class="faq-answer">Так, вартість монтажу включена. Якщо у вас є свій електрик, дайте нам знати — ми можемо виключити суму робіт з вартості.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ===== FAQ ===== */
+.faq-item {margin-bottom:12px; border:1px solid #cbd5f5; border-radius:12px; overflow:hidden;}
+.faq-item button {width:100%; padding:12px 20px; text-align:left; font-size:16px; background:#eef2ff; border:none; cursor:pointer; outline:none;}
+.faq-item .faq-answer {max-height:0; overflow:hidden; transition:max-height 0.3s ease; background:#fff; padding:0 20px;}
+.faq-item.active .faq-answer {padding:12px 20px; max-height:200px;}
+</style>
+
+<script>
+document.querySelectorAll('.faq-item button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    item.classList.toggle('active');
+  });
+});
+</script>
+
+<section>
+  <div class="wrap" style="text-align:center; margin-top:20px;">
+    <h2>Демонстрація роботи системи</h2>
+    <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:16px; margin-top:20px;">
+      <iframe 
+        src="https://www.youtube.com/embed/yjD9b_b_WlQ" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen 
+        style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px;">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+
+
+<section style="background:#022c22;color:#ecfeff">
+  <div class="wrap" style="text-align:center">
+    <h2>Залишайтесь зі світлом за будь-яких умов</h2>
+    <p>Підберемо оптимальну конфігурацію саме під ваші потреби</p>
+    <a href="#" class="cta">Написати в Telegram</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Автономні енергетичні рішення Victron</p>
+</footer>
+
+<script>
+  /* ===== Логіка каруселі відгуків ===== */
+  (function() {
+    const track = document.querySelector('.carousel-track-reviews');
+    const items = Array.from(track.children);
+    const prevBtn = document.querySelector('.carousel-reviews .prev');
+    const nextBtn = document.querySelector('.carousel-reviews .next');
+    let index = 0;
+
+    function update() {
+      // margin по боках 8px => +16 до ширини
+      const itemWidth = items[0].offsetWidth + 16;
+      track.style.transform = `translateX(-${index * itemWidth}px)`;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      index = (index === 0) ? items.length - 3 : index - 1;
+      update();
+    });
+    nextBtn.addEventListener('click', () => {
+      index = (index >= items.length - 3) ? 0 : index + 1;
+      update();
+    });
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  /* ===== Логіка каруселі робіт ===== */
+  (function() {
+    const track = document.querySelector('.carousel-track-works');
+    const items = Array.from(track.children);
+    const prevBtn = document.querySelector('.carousel-works .prev');
+    const nextBtn = document.querySelector('.carousel-works .next');
+    let index = 0;
+
+    function update() {
+      // padding 4px з кожного боку => +8 до ширини
+      const itemWidth = items[0].offsetWidth + 8;
+      track.style.transform = `translateX(-${index * itemWidth}px)`;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      index = (index === 0) ? items.length - 3 : index - 1;
+      update();
+    });
+    nextBtn.addEventListener('click', () => {
+      index = (index >= items.length - 3) ? 0 : index + 1;
+      update();
+    });
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
+
+</body>
+</html>
