@@ -434,6 +434,7 @@
           </div>
 
           <div class="flip-card-back">
+            <button type="button" class="flip-card-back-btn" aria-label="Назад">← Назад</button>
             <h4>Технічна конфігурація</h4>
             <p>MultiPlus-II 48/5000/70-50 GX — інвертор/зарядний пристрій Victron Energy з вбудованим GX інтерфейсом.</p>    
 
@@ -524,6 +525,7 @@
           </div>
 
           <div class="flip-card-back">
+            <button type="button" class="flip-card-back-btn" aria-label="Назад">← Назад</button>
             <h4>Технічна конфігурація</h4>
             <p>MultiPlus-II 48/10000/140-100 GX — інвертор/зарядний пристрій Victron Energy з вбудованим GX інтерфейсом.</p>
             
@@ -603,6 +605,7 @@
           </div>
 
           <div class="flip-card-back">
+            <button type="button" class="flip-card-back-btn" aria-label="Назад">← Назад</button>
             <h4>Технічна конфігурація</h4>
             <p>MultiPlus-II 48/15000/200-100 GX — інвертор/зарядний пристрій Victron Energy з вбудованим GX інтерфейсом.</p>
             
@@ -670,8 +673,23 @@
     /* ===== Flip-карточки в стиле обычных карточек ===== */
 .flip-card {
   perspective: 1000px;
-  cursor: pointer;
   touch-action: pan-y;
+}
+.flip-card-back-btn {
+  align-self: flex-start;
+  background: #0f172a;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: background 0.2s;
+}
+.flip-card-back-btn:hover {
+  background: #334155;
 }
 
 .flip-card-inner {
@@ -836,11 +854,22 @@
   align-self: flex-start;
   background: #22c55e;
   color: #fff;
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 12px;
-  margin-top: 10px;
+  font-size: 13px;
+  margin-top: 12px;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.flip-card-front .details-badge:hover {
+  background: #16a34a;
+}
+@media (max-width:600px){
+  .flip-card-front { padding-bottom: 48px; }
+  .flip-card-front .details-badge { margin-bottom: 8px; }
 }
 
 /* ===== Задняя сторона ===== */
@@ -923,41 +952,22 @@
 
   <script>
     document.querySelectorAll('.flip-card').forEach(function(card) {
-      var touchStartY = 0, touchStartX = 0, moved = false, handledTap = false;
-      var TAP_THRESHOLD = 12;
-
-      card.addEventListener('touchstart', function(e) {
-        moved = false;
-        handledTap = false;
-        if (e.touches.length === 1) {
-          touchStartX = e.touches[0].clientX;
-          touchStartY = e.touches[0].clientY;
-        }
-      }, { passive: true });
-
-      card.addEventListener('touchmove', function(e) {
-        if (e.touches.length !== 1) return;
-        var dy = Math.abs(e.touches[0].clientY - touchStartY);
-        var dx = Math.abs(e.touches[0].clientX - touchStartX);
-        if (dy > TAP_THRESHOLD || dx > TAP_THRESHOLD) moved = true;
-      }, { passive: true });
-
-      card.addEventListener('touchend', function(e) {
-        if (moved) return;
-        e.preventDefault();
-        card.classList.toggle('flipped');
-        handledTap = true;
-      }, { passive: false });
-
-      card.addEventListener('click', function(e) {
-        if (handledTap) {
+      var badge = card.querySelector('.details-badge');
+      var backBtn = card.querySelector('.flip-card-back-btn');
+      if (badge) {
+        badge.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
-          handledTap = false;
-          return;
-        }
-        card.classList.toggle('flipped');
-      });
+          card.classList.add('flipped');
+        });
+      }
+      if (backBtn) {
+        backBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          card.classList.remove('flipped');
+        });
+      }
     });
   </script>
 
