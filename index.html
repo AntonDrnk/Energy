@@ -712,6 +712,7 @@
   transform-style: preserve-3d;
   border-radius: 18px; /* как у .card */
   box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  touch-action: pan-y;
 }
 
 .flip-card.flipped .flip-card-inner {
@@ -736,6 +737,7 @@
   background: #fff; /* как у обычных карточек */
   color: #0f172a;
   transition: transform 0.3s, box-shadow 0.3s;
+  touch-action: pan-y;
 }
 
 @media (hover: hover) {
@@ -805,6 +807,7 @@
   box-shadow: 0 8px 25px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
+  touch-action: pan-y;
 }
 
 .flip-card.flipped .flip-card-inner {
@@ -825,6 +828,7 @@
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.3s, box-shadow 0.3s;
+  touch-action: pan-y;
 }
 
 .flip-card-front .power-badge {
@@ -973,6 +977,7 @@
       var backBtn = card.querySelector('.flip-card-back-btn');
       var touchStart = { x: 0, y: 0, t: 0 };
       var didTap = false;
+      var lastTouchWasScroll = false;
       var TAP_MOVE_MAX = 28;
       var TAP_TIME_MAX = 400;
 
@@ -1003,13 +1008,16 @@
         if (movedLittle && wasShort) {
           didTap = true;
           card.classList.add('flipped');
-          e.preventDefault();
+        } else {
+          lastTouchWasScroll = true;
+          setTimeout(function() { lastTouchWasScroll = false; }, 500);
         }
-      }, { passive: false });
+      }, { passive: true });
 
       card.addEventListener('click', function(e) {
         if (e.target.closest('.flip-card-back-btn')) return;
         if (card.classList.contains('flipped')) return;
+        if (lastTouchWasScroll) { lastTouchWasScroll = false; e.preventDefault(); e.stopPropagation(); return; }
         if (didTap) { didTap = false; e.preventDefault(); e.stopPropagation(); return; }
         card.classList.add('flipped');
       });
