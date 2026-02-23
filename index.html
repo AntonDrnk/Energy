@@ -974,13 +974,15 @@
 
   <script>
     document.querySelectorAll('.flip-card').forEach(function(card) {
+      var badge = card.querySelector('.details-badge');
       var backBtn = card.querySelector('.flip-card-back-btn');
-      var touchStart = { x: 0, y: 0, t: 0 };
-      var didTap = false;
-      var lastTouchWasScroll = false;
-      var TAP_MOVE_MAX = 28;
-      var TAP_TIME_MAX = 400;
-
+      if (badge) {
+        badge.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          card.classList.add('flipped');
+        });
+      }
       if (backBtn) {
         backBtn.addEventListener('click', function(e) {
           e.preventDefault();
@@ -988,39 +990,6 @@
           card.classList.remove('flipped');
         });
       }
-
-      card.addEventListener('touchstart', function(e) {
-        if (card.classList.contains('flipped')) return;
-        touchStart.x = e.touches[0].clientX;
-        touchStart.y = e.touches[0].clientY;
-        touchStart.t = Date.now();
-        didTap = false;
-      }, { passive: true });
-
-      card.addEventListener('touchend', function(e) {
-        if (card.classList.contains('flipped')) return;
-        if (e.target.closest('.flip-card-back-btn')) return;
-        var dx = e.changedTouches[0].clientX - touchStart.x;
-        var dy = e.changedTouches[0].clientY - touchStart.y;
-        var duration = Date.now() - touchStart.t;
-        var movedLittle = Math.abs(dx) < TAP_MOVE_MAX && Math.abs(dy) < TAP_MOVE_MAX;
-        var wasShort = duration < TAP_TIME_MAX;
-        if (movedLittle && wasShort) {
-          didTap = true;
-          card.classList.add('flipped');
-        } else {
-          lastTouchWasScroll = true;
-          setTimeout(function() { lastTouchWasScroll = false; }, 500);
-        }
-      }, { passive: true });
-
-      card.addEventListener('click', function(e) {
-        if (e.target.closest('.flip-card-back-btn')) return;
-        if (card.classList.contains('flipped')) return;
-        if (lastTouchWasScroll) { lastTouchWasScroll = false; e.preventDefault(); e.stopPropagation(); return; }
-        if (didTap) { didTap = false; e.preventDefault(); e.stopPropagation(); return; }
-        card.classList.add('flipped');
-      });
     });
   </script>
 
