@@ -678,6 +678,12 @@
 .flip-card {
   perspective: 1000px;
   touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.flip-card:focus {
+  outline: none;
 }
 .flip-card-back-btn {
   align-self: flex-start;
@@ -732,9 +738,11 @@
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.flip-card-front:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+@media (hover: hover) {
+  .flip-card-front:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
 }
 
 .flip-card-front .power-badge {
@@ -778,6 +786,12 @@
   perspective: 1000px;
   cursor: pointer;
   border-radius: 16px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.flip-card:focus {
+  outline: none;
 }
 
 .flip-card-inner {
@@ -957,8 +971,10 @@
   <script>
     document.querySelectorAll('.flip-card').forEach(function(card) {
       var backBtn = card.querySelector('.flip-card-back-btn');
-      var touchStart = { x: 0, y: 0 };
+      var touchStart = { x: 0, y: 0, t: 0 };
       var didTap = false;
+      var TAP_MOVE_MAX = 28;
+      var TAP_TIME_MAX = 400;
 
       if (backBtn) {
         backBtn.addEventListener('click', function(e) {
@@ -972,6 +988,7 @@
         if (card.classList.contains('flipped')) return;
         touchStart.x = e.touches[0].clientX;
         touchStart.y = e.touches[0].clientY;
+        touchStart.t = Date.now();
         didTap = false;
       }, { passive: true });
 
@@ -980,7 +997,10 @@
         if (e.target.closest('.flip-card-back-btn')) return;
         var dx = e.changedTouches[0].clientX - touchStart.x;
         var dy = e.changedTouches[0].clientY - touchStart.y;
-        if (Math.abs(dx) < 15 && Math.abs(dy) < 15) {
+        var duration = Date.now() - touchStart.t;
+        var movedLittle = Math.abs(dx) < TAP_MOVE_MAX && Math.abs(dy) < TAP_MOVE_MAX;
+        var wasShort = duration < TAP_TIME_MAX;
+        if (movedLittle && wasShort) {
           didTap = true;
           card.classList.add('flipped');
           e.preventDefault();
