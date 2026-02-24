@@ -676,13 +676,18 @@
 .configs-section .grid { overflow: visible !important; }
 .configs-section { touch-action: pan-y; -webkit-overflow-scrolling: auto; }
 
-    /* ===== Flip-карточки в стиле обычных карточек ===== */
+    /* ===== Flip-карточки: тач проходит к странице (скролл), кнопки кликабельны ===== */
 .flip-card {
   perspective: 1000px;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   -webkit-user-select: none;
+  pointer-events: none;
+}
+.flip-card .details-badge,
+.flip-card .flip-card-back-btn {
+  pointer-events: auto;
 }
 .flip-card:focus {
   outline: none;
@@ -793,6 +798,11 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  pointer-events: none;
+}
+.flip-card .details-badge,
+.flip-card .flip-card-back-btn {
+  pointer-events: auto;
 }
 .flip-card:focus {
   outline: none;
